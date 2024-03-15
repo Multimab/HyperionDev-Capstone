@@ -61,3 +61,28 @@ def sentiment_analysis(reviews, i_start, i_end):
 sentiment_scores = sentiment_analysis(cleanest_reviews, 0, None).keys()
 
 df['Scores (Polarity, Subjectivity)'] = sentiment_scores
+
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+def similarity_analysis(reviews):
+    similarity_matrix = np.zeros((len(reviews), len(reviews)))
+    for i, review1 in enumerate(reviews):
+        for j, review2 in enumerate(reviews):
+            similarity_matrix[i, j] = nlp(review1).similarity(nlp(review2))
+            return similarity_matrix
+
+print(similarity_analysis(cleanest_reviews))
+
+
+# Plot similarity score heatmap
+plt.figure(figsize=(8, 6))
+sns.set_theme(font_scale=1.2)
+sns.heatmap(similarity_analysis(cleanest_reviews), 
+            annot=True, xticklabels=["1","2","3","4","5"], 
+            yticklabels=["1","2","3","4","5"], cmap="YlGnBu")
+plt.title("Semantic Similarity Heatmap")
+plt.xlabel("Review #")
+plt.ylabel("Review #")
+plt.show()
