@@ -56,23 +56,8 @@ def sentiment_analysis(reviews, i_start, i_end):
     scores_dict = dict(zip(scores, orig_reviews))
     return scores_dict
 
-# Printing each review and its sentiment scores on separate lines
-# for readability.
 
-for key, value in sentiment_analysis(cleanest_reviews, 0, 5).items():
-    print(key, ":", value)
+# Assign scores to a variable and then to a new column in dataframe
+sentiment_scores = sentiment_analysis(cleanest_reviews, 0, None).keys()
 
-# Define a function which takes a review and compares it with each
-# of the reviews cleaned earlier to return its similarity score.
-
-def similarity_analysis(review):
-    scores = {}
-    for i, clean_review in enumerate(cleanest_reviews, start=1):
-            scores.update({i : clean_review.similarity(review)})
-    return scores
-
-# Printing the index number of each review and its similarity 
-# scores on separate lines for readability.
-
-for key, value in similarity_analysis(cleanest_reviews[0]).items():
-    print(key, ":", value)
+df['Scores (Polarity, Subjectivity)'] = sentiment_scores
